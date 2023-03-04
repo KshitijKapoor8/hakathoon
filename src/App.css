@@ -5,6 +5,7 @@
 .App {
   text-align: center;
   background-color: #E6b777;
+  height: 100vh;
   padding-top: -20vh;
 }
 
@@ -24,49 +25,62 @@
 }
 .App-display-good
 {
+  display: 'flex';
+  flex-direction: row;
+  align-items: left;
   font-size: medium;
-  max-width:fit-content;
-  max-height:fit-content;
+  width:100px;
+  height: 45px;
   list-style: none;
   color: white;
   background-color: #008200;
   opacity: 50%;
+  border-radius: 10%;
 }
 
 .App-display-good li{
-  text-align: left;
+  text-align: center;
+  display:'flex';
+  padding-right: 4vh;
 }
 
 .App-display-bad{
-  max-width:fit-content;
-  max-height:fit-content;
+  display: 'flex';
+  flex-direction: row;
+  align-items: center;
+  width:100px;
+  height: 45px;
   font-size: medium;
   list-style: none;
   color: white;
   background-color: red;
   opacity: 50%;
+  border-radius: 10%;
+
+
 }
 
 .App-display-bad li{
+  display:'flex';
   text-align: left;
 }
 
 .navigation
 {
   display: flex;
-  justify-content: space-between;
-  background-color: #E6b777;
+  justify-content: space-evenly;
+  padding-top: 70vh;
 }
 
 
 .App-good{
-  justify-content: flex-start;
   display: flex;
+  margin: 0;
+  padding: 0;
 
 }
 
 .App-bad{
-  justify-content: flex-end;
   display: flex;
 
 }
