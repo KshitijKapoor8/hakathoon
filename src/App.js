@@ -7,12 +7,19 @@ function App() {
      <div className="App-name">
       nectar
      </div>
-
+     <div className = "App-bear-hover">
+      <img className = "App-bear-image" src = "yellowbear.PNG" alt = "bear"/>
+      <div className>
+        score: 83/100
+      </div>
+     </div>
       <body className='App-body'>
-        ok
+        const goodIngredients = ["water", "vitaminc"];
+        const badIngredients = ["formaldehyde, idk"];
       </body>
+       
     </div>
+
   );
 }
-
 export default App;
