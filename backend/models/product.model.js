@@ -22,7 +22,7 @@ const productSchema = new Schema({
     },
     link: {
         type: String,
-        required: true
+        required: true,
     }
 }, {
     timestamps: true,

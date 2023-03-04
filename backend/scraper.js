@@ -1,10 +1,12 @@
 const ingredients = [];
 const cheerio = require('cheerio');
 const puppeteer = require('puppeteer');  
-const amplify = require('aws-amplify'); 
 var dict = {};
 var codes = [];
 var names = []; 
+
+var cD = {};
+    
 (async () => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -46,7 +48,6 @@ var names = [];
         }
       });
     
-    var cD = {};
     
     names.forEach((key, i) => {
         let s = "";
@@ -62,6 +63,12 @@ var names = [];
         cD[key] = codes[i];
     });
 
+    
+
     await browser.close();
 
+    module.exports = {cD};
+
   })();
+
+
