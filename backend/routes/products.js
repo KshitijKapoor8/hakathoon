@@ -106,7 +106,7 @@ router.route('/add').post((req, res) => {
       
       const newPr = new Pr({name, ingredients, score, link});
       newPr.save()
-          .then(() => {res.json("Product added!")})
+          .then(() => {res.json(newPr)})
           .catch((err) => {res.status(400).json("Error: "+ err)})
     })(); 
       

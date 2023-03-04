@@ -2,18 +2,64 @@
 import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-var currentURL;
+
 function App() {
+  const [currentURL, setCurrentURL] = useState("");
+  const [ingredients, setIngredients] = useState([]);
+  const [score, setScore] = useState(0);
+  const [name, setName] = useState(""); 
+
+
   chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
-    currentURL = tabs[0].url;
+    setCurrentURL(tabs[0].url);
+    console.log(currentURL)
   });
+
+  
+
+  useEffect(() => {
+    if(currentURL.includes("amazon")) {
+      axios.get('http://localhost:5000/products/')
+      .then(response => {
+          for(var i = 0; i<response.length; i++) {
+            if(response[i].link == currentURL) {
+              setIngredients(response[i].ingredients);
+              setScore(response[i].score);
+              setName(response[i].name);
+              break;
+            }
+          }
+          console.log(name + "\n" + ingredients);
+        }
+      ).catch((error) => {
+        console.log(error);
+      })
+
+      if(ingredients.length == 0) {
+        axios.post('http://localhost:5000/products/add', {params: {link: currentURL}})
+        .then(response => {
+            setIngredients(response.ingredients);
+            setScore(response.score);
+            setName(response.name);
+            console.log(name + "\n" + ingredients);
+          }).catch((error) => {
+            console.log(error);
+          })
+      }
+    } else {
+      console.log("not amazon");
+    }
+  },[currentURL]);
+
   let goodIngredients = ["a", "b"];
   let badIngredients = ["formaldehyde", "idk"];
   for(var i = 0; i<badIngredients.length; i++)
   {
     badIngredients[i] = "x " + badIngredients[i];
   }
+
   return (
     <div className="App">
      <div className="App-name">
@@ -22,12 +68,7 @@ function App() {
      <div className = "App-bear-hover">
       <img className = "App-bear-image" src = "greenbear.PNG" alt = "bear"/>
       <div className>
-        {
-          chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
-            console.log(tabs[0].url);
-          })
-        };
-        
+        83/100
       </div>
      </div>
       <body>
