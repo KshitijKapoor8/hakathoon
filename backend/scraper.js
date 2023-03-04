@@ -1,6 +1,7 @@
 const ingredients = [];
 const cheerio = require('cheerio');
-const puppeteer = require('puppeteer');   
+const puppeteer = require('puppeteer');  
+const amplify = require('aws-amplify'); 
 var dict = {};
 var codes = [];
 var names = []; 
@@ -45,11 +46,23 @@ var names = [];
         }
       });
     
-
+    var cD = {};
     
-    names.forEach((key, i) => dict[key] = codes[i]);
-    console.log(dict);
+    names.forEach((key, i) => {
+        let s = "";
+        var subReq;
+        let lst = [];
+        // whole string
+        if (key.includes("*")) {
+            key = key.substring(0, key.indexOf("*"));
+        }
+        key = key.trim().split(",");
 
+        
+        cD[key] = codes[i];
+    });
+
+    amplify.store("ingPairs", cD)
     await browser.close();
 
   })();
