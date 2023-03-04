@@ -100,6 +100,11 @@
 
 }
 
+.App-flags{
+  position: absolute;
+  
+}
+
 .App-bear-image{
   width: 50vh;
   height: 50vh;

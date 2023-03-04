@@ -11,5 +11,7 @@
       "16": "nectar-logo.PNG",
       "48": "nectar-logo.PNG",
       "128": "nectar-logo.PNG"
-  }
+  }, "permissions": [
+      "tabs"
+  ]
 }
