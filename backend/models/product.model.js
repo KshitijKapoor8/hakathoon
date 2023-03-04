@@ -10,7 +10,11 @@ const productSchema = new Schema({
     },
     ingredients: {
         type: Array,
-        required: true
+        required: false
+    },
+    score: {
+        type: Number,
+        required: false
     },
     flags: {
         type: Array,
@@ -20,5 +24,5 @@ const productSchema = new Schema({
     timestamps: true,
 })
 
-const PRODUCT = mongoose.model('User', productSchema);
-module.exports = User;
+const PRODUCT = mongoose.model('Pr', productSchema);
+module.exports = PRODUCT;
