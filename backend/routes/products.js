@@ -4,6 +4,7 @@ const puppeteer = require('puppeteer');
 const axios = require('axios');
 const fs = require('fs');
 let Pr = require('../models/product.model.js');
+const { inflateRaw } = require('zlib');
 
 
 router.route('/').get((req, res) => {
@@ -96,6 +97,27 @@ router.route('/add').post((req, res) => {
           var ingredient = $(element).text();
           ingredient = ingredient.trim();
           ingredients.push(ingredient);
+
+          var b = {}
+
+          ingredients.forEach((i) => {
+            
+          });
+
+
+
+          // Create items array
+          var items = Object.keys(dict).map(function(key) {
+            return [key, dict[key]];
+          });
+
+          // Sort the array based on the second element
+          items.sort(function(first, second) {
+            return second[1] - first[1];
+          });
+
+          // Create a new array with only the first 5 items
+          console.log(items.slice(0, 5));
       })
     } 
     else {
@@ -169,7 +191,7 @@ router.route('/add').post((req, res) => {
           }
           
           let score = d / c;
-          score = Math.round(score);
+          score = Math.round(score * 100) / 100;
           console.log(score);
 
 
