@@ -19,9 +19,10 @@ router.route('/add').post((req, res) => {
 
     (async () => {
 
-      const browser = await puppeteer.launch({headless: false});
+      const browser = await puppeteer.launch();
       var page = await browser.newPage();
     
+      console.log('products:' + link);
       await page.goto(link);
       await page.waitForSelector('#productTitle');
       var html = await page.content();

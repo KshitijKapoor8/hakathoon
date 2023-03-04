@@ -11,7 +11,6 @@ function App() {
   const [score, setScore] = useState(0);
   const [name, setName] = useState(""); 
 
-
   chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
     setCurrentURL(tabs[0].url);
     console.log(currentURL)
@@ -31,9 +30,10 @@ function App() {
               break;
             }
           }
-          console.log(name + "\n" + ingredients);
+          // console.log(name + "\n" + ingredients);
         }
       ).catch((error) => {
+        console.log("hje")
         console.log(error);
       })
 
@@ -45,11 +45,12 @@ function App() {
             setName(response.name);
             console.log(name + "\n" + ingredients);
           }).catch((error) => {
+            console.log("hje")
             console.log(error);
           })
       }
     } else {
-      console.log("not amazon");
+      // console.log("not amazon");
     }
   },[currentURL]);
 
