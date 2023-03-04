@@ -4,6 +4,8 @@
 }
 .App {
   text-align: center;
+  background-color: #E6b777;
+  padding-top: -20vh;
 }
 
 .App-name{
@@ -12,18 +14,53 @@
   width: 10vh;
   font-family: exo;
   text-align: left;
-  color: black;
+  color: #53230A;
   font-size: 5vh;
-  margin-top: 20vh;
-  background-color: white;
   padding-right: 9vh;
-  padding-bottom: 2vh;
+  padding-bottom: 5vh;
   padding-left: 1.5vh;
   position: absolute;
   border-radius: 0 0 10px 0
 }
 .App-body{
-    margin-top: -20vh;
-    background-color: pink;
 }
 
+.App-bear-image{
+  width: 50vh;
+  height: 50vh;
+  align-self: center;
+}
+
+.App-bear-hover{
+    position: absolute;
+    margin-top: 20vh;
+    align-items: center;
+    margin-left: 18%;
+  }
+
+.App-bear-hover div{
+    position: absolute;
+    font-size: large;
+    top: 0;
+    right: 0;
+    background: #53230A;
+    color: white;
+    margin-bottom: 5px;
+    font-family: exo;
+    opacity: 0;
+    border-radius: 30px 30px 30px 0px;
+    visibility: hidden;
+    -webkit-transition: visibility 0s, opacity 0.5s linear; 
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.App-bear-hover:hover{
+  cursor:pointerl
+}
+
+.App-bear-hover:hover div{
+    width: 10vh;
+    padding: 5vh 5vh;
+    visibility: visible;
+    opacity: 0.7; 
+}
