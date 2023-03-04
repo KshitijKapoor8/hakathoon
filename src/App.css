@@ -23,6 +23,21 @@
   position: absolute;
   border-radius: 0 0 10px 0
 }
+
+.App-sustain-title{
+  align-self: center;
+  height: 5vh;
+  width: 100%;
+  font-family: exo;
+  text-align: center;
+  color: #53230A;
+  font-size: 6vh;
+  position: absolute;
+  border-radius: 0 0 10px 0;
+  padding-top: 5vh;
+}
+
+
 .App-display-good
 {
   display: 'flex';
