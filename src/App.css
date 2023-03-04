@@ -22,47 +22,53 @@
   position: absolute;
   border-radius: 0 0 10px 0
 }
-
 .App-display-good
 {
-  padding-top: 71vh;
   font-size: medium;
+  max-width:fit-content;
+  max-height:fit-content;
   list-style: none;
-  padding-right: 0vh;
-  padding-left: 0.5vh;
-  max-width: fit-content;
-  min-width: fit-content;
-  position: absolute;
+  color: white;
+  background-color: #008200;
+  opacity: 50%;
 }
 
 .App-display-good li{
   text-align: left;
 }
 
-.App-display-good li:before{
-  padding-left: 1vh;
-  padding-right: 0;
-  content: '✓ ';
-}
-
 .App-display-bad{
-  margin-top: 74vh;
-  padding-right: 2vh;
-  margin-left: 20vh;
-  padding-left: 4vh;
+  max-width:fit-content;
+  max-height:fit-content;
   font-size: medium;
   list-style: none;
-  position: absolute;
-}
-
-.App-display-bad li.before{
-  margin: 4vh;
-  padding: 4vh;
-  content: 'hhighgjikihyuh';
+  color: white;
+  background-color: red;
+  opacity: 50%;
 }
 
 .App-display-bad li{
   text-align: left;
+}
+
+.navigation
+{
+  display: flex;
+  justify-content: space-between;
+  background-color: #E6b777;
+}
+
+
+.App-good{
+  justify-content: flex-start;
+  display: flex;
+
+}
+
+.App-bad{
+  justify-content: flex-end;
+  display: flex;
+
 }
 
 .App-bear-image{
