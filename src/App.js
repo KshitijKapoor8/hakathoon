@@ -6,11 +6,30 @@ global chrome
 
 
 function App() {
-  let goodIngredients = ["a", "b"];
-  let badIngredients = ["formaldehyde", "idk"];
+  let goodIngredients = ["water", "nectar","pollen"];
+  let badIngredients = ["formaldehyde", "suflate","pthalate"];
+  // modifies the ingredients so that they fit well on the screen
   for(var i = 0; i<badIngredients.length; i++)
   {
-    badIngredients[i] = "x " + badIngredients[i];
+    if(badIngredients[i].length > 6)
+    {
+      badIngredients[i] = "x " + badIngredients[i].substring(0,7) + "...";
+    }
+    else
+    {
+      badIngredients[i] = "x " + badIngredients[i];
+    }
+  }
+  for(var i = 0; i<goodIngredients.length; i++)
+  {
+    if(goodIngredients[i].length > 6)
+    {
+      goodIngredients[i] = '✓ ' + goodIngredients[i].substring(0,7) + "...";
+    }
+    else
+    {
+      goodIngredients[i] = '✓ ' + goodIngredients[i];
+    }
   }
   return (
     <div className="App">
@@ -28,22 +47,22 @@ function App() {
         
       </div>
      </div>
-      <body>
+      <nav className = "navigation">
+        <div className='App-good'>
         <ul className = 'App-display-good'>
           {goodIngredients.map((value, index) => {
           return <li key={index}>{value}</li>
         })}
-        </ul>
-
+        </ul> 
+        </div>
+        <div class = 'App-bad'>
         <ul className = 'App-display-bad'>
           {badIngredients.map((value, index) => {
           return <li key={index}>{value}</li>
         })}
         </ul>
-      
-
-      </body>
-       
+        </div> 
+      </nav>
     </div>
 
   );
