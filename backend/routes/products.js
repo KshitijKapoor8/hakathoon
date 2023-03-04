@@ -13,53 +13,93 @@ router.route('/').get((req, res) => {
 
 router.route('/add').post((req, res) => {
     const score = req.body.score;
-    const name = req.body.name;
+    var name = ""
     const link = req.body.link;
-
     const ingredients = [];
 
     (async () => {
 
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
+      const browser = await puppeteer.launch({headless: false});
+      var page = await browser.newPage();
     
       await page.goto(link);
-
       await page.waitForSelector('#productTitle');
       var html = await page.content();
       var title = cheerio.load(html)("#productTitle").text();  
 
-      var y = "https://smartlabel.org/product-search/?product=";
+      var searchLink = "https://smartlabel.org/product-search/?product=";
       let validLetters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*_-";
       title = title.trim();
-      console.log(title);
+      name = title;
       String(title).split(" ").forEach((word) => {        
         word.split("").forEach((letter) => {
           if(!validLetters.includes(letter)) {
-            y += letter.charCodeAt(0);
+            searchLink += letter.charCodeAt(0);
           } else {
-            y += letter;
+            searchLink += letter;
           }
         })
-        y += "+"
+        searchLink += "+"
       })
-      console.log(y);
-      page.close();
-      page = await browser.newPage();
+
+      await page.goto(searchLink);
+      const openFirstProductSelector = '#search-results > table > tr > td > a'
+      await page.waitForSelector(openFirstProductSelector);
+      const [newPage] = await Promise.all([
+        new Promise(resolve => page.once('popup', resolve)),
+        page.click(openFirstProductSelector),
+    ]);
     
-      await page.goto(link);
-    
+    page = newPage;
+    console.log(page.url());
+
+    searchLink = page.url();
       // Wait for the JavaScript on the page to finish executing
-      await page.waitForSelector('.fren-ing');
+      // await page.waitForSelector('#ingredient-list');
     
       // Get the updated HTML
-      html = await page.content();
-      const $ = cheerio.load(html);
-      $('span.fren-ing').each((index, element) => {
-        console.log("element:" + element)
-        const ingredient = $(element).text();
-        ingredients.push(ingredient);
-      });
+      
+      if(searchLink.includes("unilever") || searchLink.includes("pg")) {
+        html = await page.content();
+        const $ = cheerio.load(html);
+        $('#ingredient-list ul a').each((index, element) => {
+          const ingredient = $(element).text();
+          ingredients.push(ingredient);
+        });
+      } else if(searchLink.includes("rbna")) {
+        html = await page.content();
+        const $ = cheerio.load(html);
+        $('#ingredients h4.card-title h3').each((index, element) => {
+          var ingredient = $(element).text();
+          if(!(ingredient.includes("INTENTIONALLY ADDED") || 
+             ingredient.includes("NON-FUNCTIONAL CONSTITUENT") ||
+             ingredient.includes("ACTIVE") ||
+             ingredient.includes("FRAGRENCE COMPONENT"))) {
+              if(ingredient.includes(".")) {
+                ingredient = ingredient.substring(0, ingredient.indexOf("."))
+              }
+              ingredient = ingredient.trim();
+              ingredients.push(ingredient);
+             }
+          
+        });
+      } 
+      else if(searchLink.includes("labelinsight")) {
+        await page.waitForSelector('#app > div > div.IngredientList__Container-s1okj7nk-1.fOlUYP > div.List-s4yj22t-0.iOrnUH > a');
+        html = await page.content();
+        const $ = cheerio.load(html);
+        $('#app > div > div.IngredientList__Container-s1okj7nk-1.fOlUYP > div.List-s4yj22t-0.iOrnUH > a')
+        .each((index, element) => {
+          var ingredient = $(element).text();
+          ingredient = ingredient.trim();
+          ingredients.push(ingredient);
+      })
+    } 
+    else {
+      console.log("none")
+    }
+
+      
       
       // Do something with the HTML
       console.log(ingredients);
@@ -67,8 +107,7 @@ router.route('/add').post((req, res) => {
       await browser.close();
 
       const flags = req.body.flags;
-    
-
+  
       const newPr = new Pr({name, ingredients, score, flags, link});
       newPr.save()
           .then(() => {res.json("Product added!")})

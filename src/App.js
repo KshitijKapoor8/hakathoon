@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 
+
 function App() {
   let goodIngredients = ["a", "b"];
   let badIngredients = ["formaldehyde", "idk"];
@@ -16,7 +17,12 @@ function App() {
      <div className = "App-bear-hover">
       <img className = "App-bear-image" src = "greenbear.PNG" alt = "bear"/>
       <div className>
-        score: 83/100
+        {
+          chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
+            console.log(tabs[0].url);
+          })
+        };
+        
       </div>
      </div>
       <body>
