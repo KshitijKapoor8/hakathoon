@@ -20,45 +20,40 @@ router.route('/add').post((req, res) => {
 
     (async () => {
 
-      var { data: html } = await axios.get(
-        link,
-      );
-      html = html.toString();
-      const $ = await cherrio.load(html)
-      
-      const span = $('#productTitle')
-
-      let y = "https://smartlabel.org/product-search/?product=";
-      let validLetters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*_-";
-      String(x).split(" ").forEach((word) => {
-        word = word.trim();
-        for (let i = 0; i < word.length; i++) {
-          if (!validLetters.includes(word[i])) {
-            let num = word.charPointAt(i);
-            console.log(num);
-          }
-        }
-
-        y += word;
-        y += "+";
-      
-    })})();
-
-    
-    
-    (async () => {
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
     
       await page.goto(link);
-      await page.waitForSelector('[xml\\:id="productTitle"');
 
+      await page.waitForSelector('#productTitle');
+      var html = await page.content();
+      var title = cheerio.load(html)("#productTitle").text();  
+
+      var y = "https://smartlabel.org/product-search/?product=";
+      let validLetters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*_-";
+      title = title.trim();
+      console.log(title);
+      String(title).split(" ").forEach((word) => {        
+        word.split("").forEach((letter) => {
+          if(!validLetters.includes(letter)) {
+            y += letter.charCodeAt(0);
+          } else {
+            y += letter;
+          }
+        })
+        y += "+"
+      })
+      console.log(y);
+      page.close();
+      page = await browser.newPage();
+    
+      await page.goto(link);
     
       // Wait for the JavaScript on the page to finish executing
       await page.waitForSelector('.fren-ing');
     
       // Get the updated HTML
-      const html = await page.content();
+      html = await page.content();
       const $ = cheerio.load(html);
       $('span.fren-ing').each((index, element) => {
         console.log("element:" + element)
@@ -79,6 +74,7 @@ router.route('/add').post((req, res) => {
           .then(() => {res.json("Product added!")})
           .catch((err) => {res.status(400).json("Error: "+ err)})
     })(); 
+      
 
 
 })
