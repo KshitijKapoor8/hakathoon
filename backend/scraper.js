@@ -51,6 +51,18 @@ var cD = {};
     
     
       names.forEach((name, index) => {
+        
+        name = name.trim();
+        name = name.replace(",", "");
+
+        if (name.includes("*")) {
+            var x = name.indexOf('*');
+
+            name = name.substring(0, x - 1);
+        }
+        console.log(name);
+
+        
         cD[name] = codes[index];
       });
 
@@ -60,8 +72,8 @@ var cD = {};
     // var ss = "";
 
     
-    // var Ll = JSON.stringify(cD);
-    // fs.writeFile('output.json', Ll, (err) => {});
+    var Ll = JSON.stringify(cD);
+    fs.writeFile('output.json', Ll, (err) => {});
 
     // fs.writeFile('output.csv', String(csv), (err) => {
     //     if (err) throw err;
