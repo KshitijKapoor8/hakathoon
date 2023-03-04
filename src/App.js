@@ -1,15 +1,26 @@
+/*global chrome*/
 import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from 'react';
 
-
+var currentURL;
 function App() {
+  chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+    currentURL = tabs[0].url;
+  });
+  let goodIngredients = ["a", "b"];
+  let badIngredients = ["formaldehyde", "idk"];
+  for(var i = 0; i<badIngredients.length; i++)
+  {
+    badIngredients[i] = "x " + badIngredients[i];
+  }
   return (
     <div className="App">
      <div className="App-name">
       nectar
      </div>
      <div className = "App-bear-hover">
-      <img className = "App-bear-image" src = "yellowbear.PNG" alt = "bear"/>
+      <img className = "App-bear-image" src = "greenbear.PNG" alt = "bear"/>
       <div className>
         {
           chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
@@ -19,9 +30,20 @@ function App() {
         
       </div>
      </div>
-      <body className='App-body'>
-        const goodIngredients = ["water", "vitaminc"];
-        const badIngredients = ["formaldehyde, idk"];
+      <body>
+        <ul className = 'App-display-good'>
+          {goodIngredients.map((value, index) => {
+          return <li key={index}>{value}</li>
+        })}
+        </ul>
+
+        <ul className = 'App-display-bad'>
+          {badIngredients.map((value, index) => {
+          return <li key={index}>{value}</li>
+        })}
+        </ul>
+      
+
       </body>
        
     </div>
