@@ -2,6 +2,8 @@ const cheerio = require('cheerio');
 const router = require('express').Router();
 const puppeteer = require('puppeteer');
 const axios = require('axios');
+const ingData = require('../scraper.js');
+const fs = require('fs');
 let Pr = require('../models/product.model.js');
 
 
@@ -19,7 +21,7 @@ router.route('/add').post((req, res) => {
 
     (async () => {
 
-      const browser = await puppeteer.launch({headless: false});
+      const browser = await puppeteer.launch({});
       var page = await browser.newPage();
     
       await page.goto(link);
@@ -51,7 +53,6 @@ router.route('/add').post((req, res) => {
     ]);
     
     page = newPage;
-    console.log(page.url());
 
     searchLink = page.url();
       // Wait for the JavaScript on the page to finish executing
@@ -99,16 +100,11 @@ router.route('/add').post((req, res) => {
       console.log("none")
     }
 
-      
-      
-      // Do something with the HTML
-      console.log(ingredients);
+    
     
       await browser.close();
-
-      const flags = req.body.flags;
-  
-      const newPr = new Pr({name, ingredients, score, flags, link});
+      
+      const newPr = new Pr({name, ingredients, score, link});
       newPr.save()
           .then(() => {res.json("Product added!")})
           .catch((err) => {res.status(400).json("Error: "+ err)})
