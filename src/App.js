@@ -38,13 +38,14 @@ function App() {
       })
 
       if(ingredients.length == 0) {
-        axios.post('http://localhost:5000/products/add', {params: {link: currentURL}})
+        axios.post('http://localhost:5000/products/add', {"link": currentURL})
         .then(response => {
             setIngredients(response.ingredients);
             setScore(response.score);
             setName(response.name);
             console.log(name + "\n" + ingredients);
           }).catch((error) => {
+            console.log("post error");
             console.log(error);
           })
       }

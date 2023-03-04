@@ -2,7 +2,6 @@ const cheerio = require('cheerio');
 const router = require('express').Router();
 const puppeteer = require('puppeteer');
 const axios = require('axios');
-const ingData = require('../scraper.js');
 const fs = require('fs');
 let Pr = require('../models/product.model.js');
 
@@ -24,6 +23,7 @@ router.route('/add').post((req, res) => {
       const browser = await puppeteer.launch({});
       var page = await browser.newPage();
     
+
       await page.goto(link);
       await page.waitForSelector('#productTitle');
       var html = await page.content();
@@ -103,6 +103,27 @@ router.route('/add').post((req, res) => {
     
     
       await browser.close();
+      
+
+      // Write the CSV string to a file using the fs module
+      console.log("AHHHHHHHHH " + ingredients)
+      fs.readFile('output.json', 'utf8', (err, data) => {
+          if (err) throw err;
+      
+          // Parse the JSON data into a JavaScript object
+          const obj = JSON.parse(data);
+
+          for (let i = 0; i < ingredients.length; i++) {
+            if (obj[ingredients[i]] != null) {
+                console.log("FOUND");
+            }
+          }
+      
+          //console.log(obj);
+      });
+              
+
+
       
       const newPr = new Pr({name, ingredients, score, link});
       newPr.save()
