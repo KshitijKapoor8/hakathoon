@@ -20,6 +20,8 @@ router.route('/add').post((req, res) => {
       const page = await browser.newPage();
     
       await page.goto(link);
+      await page.waitForSelector('[xml\\:id="productTitle"');
+
     
       // Wait for the JavaScript on the page to finish executing
       await page.waitForSelector('.fren-ing');
