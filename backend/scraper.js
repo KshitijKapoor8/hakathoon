@@ -1,6 +1,7 @@
 const ingredients = [];
 const cheerio = require('cheerio');
 const puppeteer = require('puppeteer');  
+const fs = require('fs');
 var dict = {};
 var codes = [];
 var names = []; 
@@ -49,23 +50,23 @@ var cD = {};
       });
     
     
-    names.forEach((key, i) => {
-        let s = "";
-        var subReq;
-        let lst = [];
-        // whole string
-        if (key.includes("*")) {
-            key = key.substring(0, key.indexOf("*"));
-        }
-        key = key.trim().split(",");
-
-        
-        cD[key] = codes[i];
-    });
+      names.forEach((name, index) => {
+        cD[name] = codes[index];
+      });
 
     
 
     await browser.close();
+    // var ss = "";
+
+    
+    // var Ll = JSON.stringify(cD);
+    // fs.writeFile('output.json', Ll, (err) => {});
+
+    // fs.writeFile('output.csv', String(csv), (err) => {
+    //     if (err) throw err;
+    //     console.log('CSV file has been created!');
+    // });
 
     module.exports = {cD};
 
