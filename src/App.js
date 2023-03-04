@@ -79,13 +79,13 @@ function App() {
     }
   },[currentURL]);
 
-  let goodIngredients = ["a", "b"];
+  let goodIngredients = ["water", "baseball"];
   let badIngredients = ["formaldehyde", "idk"];
   for(var i = 0; i<badIngredients.length; i++)
   {
-    if(badIngredients[i].length > 6)
+    if(badIngredients[i].length > 5)
     {
-      badIngredients[i] = "x " + badIngredients[i].substring(0,7) + "...";
+      badIngredients[i] = "x " + badIngredients[i].substring(0,6) + "...";
     }
     else
     {
@@ -94,9 +94,9 @@ function App() {
   }
   for(var i = 0; i<goodIngredients.length; i++)
   {
-    if(goodIngredients[i].length > 6)
+    if(goodIngredients[i].length > 5)
     {
-      goodIngredients[i] = '✓ ' + goodIngredients[i].substring(0,7) + "...";
+      goodIngredients[i] = '✓ ' + goodIngredients[i].substring(0,6) + "...";
     }
     else
     {
