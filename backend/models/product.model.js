@@ -19,6 +19,10 @@ const productSchema = new Schema({
     flags: {
         type: Array,
         required: false
+    },
+    link: {
+        type: String,
+        required: true
     }
 }, {
     timestamps: true,
