@@ -1,5 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
+/*
+global chrome
+*/
 
 
 function App() {
