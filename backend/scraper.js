@@ -62,7 +62,6 @@ var names = [];
         cD[key] = codes[i];
     });
 
-    amplify.store("ingPairs", cD)
     await browser.close();
 
   })();
