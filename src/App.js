@@ -1,8 +1,13 @@
+/*global chrome*/
 import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from 'react';
 
-
+var currentURL;
 function App() {
+  chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+    currentURL = tabs[0].url;
+  });
   return (
     <div className="App">
      <div className="App-name">
