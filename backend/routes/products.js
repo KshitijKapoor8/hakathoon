@@ -24,7 +24,7 @@ router.route('/add').post((req, res) => {
       const browser = await puppeteer.launch({});
       var page = await browser.newPage();
     
-      console.log('products:' + link);
+      // console.log('products:' + link);
       await page.goto(link);
       await page.waitForSelector('#productTitle');
       var html = await page.content();
@@ -57,18 +57,19 @@ router.route('/add').post((req, res) => {
 
     searchLink = page.url();
       // Wait for the JavaScript on the page to finish executing
-      // await page.waitForSelector('#ingredient-list');
     
       // Get the updated HTML
       
       if(searchLink.includes("unilever") || searchLink.includes("pg")) {
+        await page.waitForSelector('#ingredient-list ul a');
         html = await page.content();
         const $ = cheerio.load(html);
         $('#ingredient-list ul a').each((index, element) => {
-          const ingredient = $(element).text();
+          const ingredient = $(element).text().trim();
           ingredients.push(ingredient);
         });
       } else if(searchLink.includes("rbna")) {
+        await page.waitForSelector('#ingredients h4.card-title h3');
         html = await page.content();
         const $ = cheerio.load(html);
         $('#ingredients h4.card-title h3').each((index, element) => {
