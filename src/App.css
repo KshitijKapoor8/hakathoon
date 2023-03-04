@@ -24,6 +24,21 @@
   border-radius: 0 0 10px 0;
   background-color: #E6b777;
 }
+
+.App-sustain-title{
+  align-self: center;
+  height: 5vh;
+  width: 100%;
+  font-family: exo;
+  text-align: center;
+  color: #53230A;
+  font-size: 6vh;
+  position: absolute;
+  border-radius: 0 0 10px 0;
+  padding-top: 5vh;
+}
+
+
 .App-display-good
 {
   display: 'flex';
@@ -84,6 +99,11 @@
 .App-bad{
   display: flex;
 
+}
+
+.App-flags{
+  position: absolute;
+  
 }
 
 .App-bear-image{

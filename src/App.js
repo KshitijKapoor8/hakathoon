@@ -1,5 +1,4 @@
 /*global chrome*/
-import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -9,29 +8,42 @@ import axios from 'axios';
 function App() {
   const [currentURL, setCurrentURL] = useState("");
   const [ingredients, setIngredients] = useState([]);
-  const [score, setScore] = useState(0);
   const [name, setName] = useState("");
   const [flags, setFlags] = useState([]);
-  const [bearState, setBearState] = useState(0);
+  const [bearState, setBearState] = useState(0.0);
   
   function bearPic() {
     if(bearState == 0) {
       return <img className = "App-bear-image" src = "greybear.PNG" alt = "bear"/>
-    } else if(bearState == 1) {
+    } else if(bearState <= 1) {
       return <img className = "App-bear-image" src = "redbear.PNG" alt = "bear"/>
-    } else if(bearState == 2) {
+    } else if(bearState <= 2) {
       return <img className = "App-bear-image" src = "orangebear.PNG" alt = "bear"/>
-    } else if(bearState == 3) {
+    } else if(bearState < 3.6) {
       return <img className = "App-bear-image" src = "yellowbear.PNG" alt = "bear"/>
-    } else if(bearState == 4) {
+    } else if(bearState <= 4) {
       return <img className = "App-bear-image" src = "greenbear.PNG" alt = "bear"/>
     }
   }
 
+    function sustainTitle() {
+      if(bearState == 0) {
+        return <div className = "App-sustain-title">not enough data</div>
+      } else if(bearState <= 1) {
+        return  <div className = "App-sustain-title">this looks dangerous</div>
+      } else if(bearState <= 2) {
+        return  <div className = "App-sustain-title">i don't like this</div>
+      } else if(bearState < 3.6) {
+        return  <div className = "App-sustain-title">kinda sus?</div>
+      } else if(bearState <= 4) {
+        return  <div className = "App-sustain-title">i love this!</div>
+      }
+    }
+
 
   chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
     setCurrentURL(tabs[0].url);
-    // console.log(currentURL)
+    console.log(currentURL)
   });
 
   
@@ -47,9 +59,9 @@ function App() {
             if(response.data[i].link == currentURL) {
               ifFound = true;
               setIngredients(response.data[i].ingredients);
-              setScore(response.data[i].score);
+              setBearState(response.data[i].score);
               setName(response.data[i].name);
-              console.log(response.data[i].name);
+              setFlags(response.data[i].flags);
               break;
             }
           }
@@ -59,9 +71,9 @@ function App() {
             axios.post('http://localhost:5000/products/add', {link: currentURL})
             .then(response => {
                 setIngredients(response.ingredients);
-                setScore(response.score);
+                setBearState(response.score);
                 setName(response.name);
-                console.log(name + "\n" + ingredients);
+                setFlags(response.flags);
               }).catch((error) => {
                 console.log("post")
                 console.log(error);
@@ -109,13 +121,16 @@ function App() {
      <div className="App-name">
       nectar
      </div>
+     <div className = 'App-sustain-title'>
+      {sustainTitle()}
+      </div>
      <div className = "App-bear-hover">
       {bearPic()}
       <div className>
-        83/100
+        {bearState * 25}% bear-friendly.
       </div>
      </div>
-      <nav className = "navigation">
+     <nav className = "navigation">
         <div className='App-good'>
         <ul className = 'App-display-good'>
           {goodIngredients.map((value, index) => {
